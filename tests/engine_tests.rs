@@ -31,9 +31,8 @@ fn create_engine_from_seed() {
 }
 #[test]
 fn create_engine_invalid_key() {
-    let bad_pk = PublicKey::new("invalid".into()).unwrap();
-    let result = OtpEngine::from_public_key(&bad_pk);
-    assert!(result.is_err());
+    let bad_pk_result = PublicKey::new("invalid".into());
+    assert!(bad_pk_result.is_err());
 }
 #[test]
 fn engine_debug_does_not_leak_seed() {
@@ -414,18 +413,22 @@ fn decode_valid_public_key() {
 }
 #[test]
 fn decode_empty_key_rejects() {
-    let bad_pk = PublicKey::new("".into()).unwrap();
-    assert!(OtpSeed::from_public_key(&bad_pk).is_err());
+    let bad_pk_result = PublicKey::new("".into());
+    assert!(bad_pk_result.is_err());
 }
 #[test]
 fn decode_invalid_prefix_rejects() {
-    let bad_pk = PublicKey::new("ssh-rsa AAAA".into()).unwrap();
-    assert!(OtpSeed::from_public_key(&bad_pk).is_err());
+    let bad_pk_result = PublicKey::new("ssh-rsa AAAA".into());
+    assert!(bad_pk_result.is_err());
 }
 #[test]
 fn decode_invalid_bech32_rejects() {
-    let bad_pk = PublicKey::new("age1!!!!invalid!!!".into()).unwrap();
-    assert!(OtpSeed::from_public_key(&bad_pk).is_err());
+    let bad_pk_result = PublicKey::new("age1!!!!invalid!!!".into());
+    if let Ok(bad_pk) = bad_pk_result {
+        assert!(OtpSeed::from_public_key(&bad_pk).is_err());
+    } else {
+        assert!(bad_pk_result.is_err());
+    }
 }
 #[test]
 fn hmac_deterministic() {
