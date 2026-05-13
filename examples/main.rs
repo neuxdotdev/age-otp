@@ -25,12 +25,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         ttl
     );
 
+    // Perbaiki: tambahkan step_secs sebagai argumen ke-5
     match engine.verify_raw(
         code.as_str(),
         code_len,
         time_step,
         ttl,
-        step_secs,
+        step_secs, // <-- tambahkan ini
         Charset::Numeric,
     ) {
         Ok(()) => println!("Verifikasi RAW berhasil!"),
