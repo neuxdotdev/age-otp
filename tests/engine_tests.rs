@@ -230,11 +230,9 @@ fn reject_step_secs_too_large() {
 #[test]
 fn reject_step_secs_u64_max() {
     let engine = test_engine();
-    assert!(
-        engine
-            .generate(6, 1000, u64::MAX, Charset::Numeric)
-            .is_err()
-    );
+    assert!(engine
+        .generate(6, 1000, u64::MAX, Charset::Numeric)
+        .is_err());
 }
 #[test]
 fn accept_step_secs_min() {
@@ -287,11 +285,9 @@ fn verify_raw_wrong_charset_rejects() {
 #[test]
 fn verify_raw_invalid_step_secs_rejects() {
     let engine = test_engine();
-    assert!(
-        engine
-            .verify_raw("123456", 6, 1000, 60, 0, Charset::Numeric)
-            .is_err()
-    );
+    assert!(engine
+        .verify_raw("123456", 6, 1000, 60, 0, Charset::Numeric)
+        .is_err());
 }
 #[test]
 fn verify_with_skew_exact_match() {
