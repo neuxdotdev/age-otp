@@ -1,9 +1,40 @@
 [package]
 name = "age-otp"
 version = "0.2.0"
-edition = "2024"
-description = "Generate OTP codes from age public keys"
+edition = "2021"                       
+description = "Generate and verify time-based OTP codes from age public keys"
+authors = ["neuxdotdev"] 
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/neuxdotdev/age-otp"
+homepage = "https://github.com/neuxdotdev/age-otp"
+documentation = "https://docs.rs/age-otp"
+keywords = [
+    "otp",
+    "totp",
+    "age",
+    "age-encryption",
+    "one-time-password",
+    "hmac",
+    "hotp",
+    "2fa",
+    "security",
+]
+categories = ["cryptography", "authentication", "no-std::no-alloc"] 
+exclude = [
+    ".github/",
+    ".gitignore",
+    "examples/",  
+    "tests/",
+    "target/",
+]
 
+include = ["src/**/*", "Cargo.toml", "README.md", "LICENSE"]
+
+[badges]
+maintenance = { status = "actively-developed" }
+[features]
+default = []
 [dependencies]
 age-setup = "0.1"
 bech32 = "0.11"
@@ -13,3 +44,17 @@ sha2 = "0.10"
 thiserror = "1.0"
 subtle = "2.5"
 zeroize = "1.7"
+
+[dev-dependencies]
+
+[profile.release]
+opt-level = "s"     
+lto = true          
+codegen-units = 1   
+panic = "abort"     
+strip = "symbols"   
+[profile.test]
+opt-level = 0
+debug = true
+[package.metadata]
+docs = "https://docs.rs/age-otp"
