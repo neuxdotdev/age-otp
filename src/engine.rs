@@ -1,9 +1,9 @@
-use crate::PublicKey;
 use crate::error::{Error, Result, VerificationError};
 use crate::types::{
-    Charset, OtpCode, OtpSeed, compute_hmac, ct_eq, now_ts, truncate, validate_code_len,
-    validate_skew_steps, validate_step_secs,
+    compute_hmac, ct_eq, now_ts, truncate, validate_code_len, validate_skew_steps,
+    validate_step_secs, Charset, OtpCode, OtpSeed,
 };
+use crate::PublicKey;
 use std::fmt;
 #[derive(Clone)]
 pub struct OtpEngine {
