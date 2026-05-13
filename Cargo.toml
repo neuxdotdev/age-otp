@@ -15,10 +15,6 @@ keywords = [
     "age",
     "age-encryption",
     "one-time-password",
-    "hmac",
-    "hotp",
-    "2fa",
-    "security",
 ]
 categories = ["cryptography", "authentication", "no-std::no-alloc"] 
 exclude = [
