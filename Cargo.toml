@@ -1,7 +1,7 @@
 [package]
 name = "age-otp"
 version = "0.2.0"
-edition = "2021"
+edition = "2024"
 description = "Generate OTP codes from age public keys"
 
 [dependencies]
@@ -13,11 +13,3 @@ sha2 = "0.10"
 thiserror = "1.0"
 subtle = "2.5"
 zeroize = "1.7"
-libc = "0.2.186"
-hex = "0.4"
-
-[build-dependencies]
-cbindgen = "0.29.2"
-
-[lib]
-crate-type = ["cdylib", "rlib"] 
