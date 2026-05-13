@@ -95,7 +95,7 @@ pub struct OtpCode {
     born: u64,
 }
 impl OtpCode {
-    pub(crate) fn new(value: String, time_step: u64, step_secs: u64) -> Result<Self> {
+    pub fn new(value: String, time_step: u64, step_secs: u64) -> Result<Self> {
         let born = time_step
             .checked_mul(step_secs)
             .ok_or(GenerationError::Overflow)?;
@@ -141,13 +141,13 @@ impl AsRef<str> for OtpCode {
         &self.value
     }
 }
-pub(crate) fn now_ts() -> u64 {
+pub fn now_ts() -> u64 {
     std::time::SystemTime::now()
         .duration_since(std::time::UNIX_EPOCH)
         .map(|d| d.as_secs())
         .unwrap_or(0)
 }
-pub(crate) fn compute_hmac(seed: &[u8; SEED_LEN], step: u64) -> Result<[u8; 32]> {
+pub fn compute_hmac(seed: &[u8; SEED_LEN], step: u64) -> Result<[u8; 32]> {
     use hmac::{Hmac, Mac};
     use sha2::Sha256;
     type HmacSha256 = Hmac<Sha256>;
@@ -158,7 +158,7 @@ pub(crate) fn compute_hmac(seed: &[u8; SEED_LEN], step: u64) -> Result<[u8; 32]>
     hash.copy_from_slice(&result);
     Ok(hash)
 }
-pub(crate) fn truncate(hash: &[u8; 32], charset: Charset, len: usize) -> Result<String> {
+pub fn truncate(hash: &[u8; 32], charset: Charset, len: usize) -> Result<String> {
     if len < MIN_CODE_LEN || len > MAX_CODE_LEN {
         return Err(GenerationError::InvalidLength(format!(
             "code length must be {}-{}, got {}",
@@ -188,14 +188,14 @@ pub(crate) fn truncate(hash: &[u8; 32], charset: Charset, len: usize) -> Result<
     debug_assert_eq!(s.len(), len, "truncation produced wrong length");
     Ok(s)
 }
-pub(crate) fn ct_eq(a: &[u8], b: &[u8]) -> bool {
+pub fn ct_eq(a: &[u8], b: &[u8]) -> bool {
     use subtle::ConstantTimeEq;
     if a.len() != b.len() {
         return false;
     }
     a.ct_eq(b).into()
 }
-pub(crate) fn validate_code_len(len: usize) -> Result<()> {
+pub fn validate_code_len(len: usize) -> Result<()> {
     if len < MIN_CODE_LEN || len > MAX_CODE_LEN {
         return Err(Error::Generation(GenerationError::InvalidLength(format!(
             "code length must be {}-{}, got {}",
@@ -204,7 +204,7 @@ pub(crate) fn validate_code_len(len: usize) -> Result<()> {
     }
     Ok(())
 }
-pub(crate) fn validate_step_secs(secs: u64) -> Result<()> {
+pub fn validate_step_secs(secs: u64) -> Result<()> {
     if secs < MIN_STEP_SECS || secs > MAX_STEP_SECS {
         return Err(Error::Generation(GenerationError::TruncateFailed(format!(
             "step_secs must be {}-{}, got {}",
@@ -213,7 +213,7 @@ pub(crate) fn validate_step_secs(secs: u64) -> Result<()> {
     }
     Ok(())
 }
-pub(crate) fn validate_skew_steps(skew: u64) -> Result<()> {
+pub fn validate_skew_steps(skew: u64) -> Result<()> {
     if skew > MAX_SKEW_STEPS {
         return Err(Error::Verification(
             crate::error::VerificationError::InvalidFormat(format!(
