@@ -1,5 +1,5 @@
-use crate::PublicKey;
 use crate::error::{Error, GenerationError, KeyError, Result};
+use crate::PublicKey;
 use std::fmt;
 pub const SEED_LEN: usize = 32;
 pub const MIN_CODE_LEN: usize = 4;
@@ -37,8 +37,8 @@ impl Default for Charset {
         Self::Numeric
     }
 }
-use bech32::Bech32;
 use bech32::primitives::decode::CheckedHrpstring;
+use bech32::Bech32;
 pub(crate) fn decode_age_public_key(raw: &str) -> Result<[u8; SEED_LEN]> {
     if raw.is_empty() {
         return Err(KeyError::Empty.into());
